@@ -12,7 +12,7 @@ app.config['SECRET_KEY'] = 'example-secret' #Used for demonstration, DO NOT use 
 db = SQLAlchemy(app)
 
 from app import routes
-from app.models import Student, Grade
+from app.models import Student, Grade, House
 
 @app.cli.command('init-db')
 def create_db():
@@ -29,32 +29,52 @@ def create_db():
     year6 = Grade(name='Year 6')
     db.session.add(year6)
 
-    # TODO: Add code that creates new House records, once that model has been defined
+    green = House(colour='Green')
+    db.session.add(green)
+
+    red = House(colour='Red')
+    db.session.add(red)
+
+    blue = House(colour='Blue')
+    db.session.add(blue)
 
     # Creates two example students, we do not need to add these to the sessions explicitly
     # Flask-SQLAlchemy works out that they need to be added, as they are linked to the grade records above.
     jack = Student (
         name = 'Jack',
         grade = year6,
-        # TODO: Add the house_id field once it has been defined in the Student model
+        house = green,
         english_mark = 90,
         science_mark = 90,
-        # TODO: Add a value for the mathematics_mark field once it has been defined in the Student model
+        mathematics_mark = 92,
         does_homework = True,
-        # TODO: Add a value for the stays_on_task field once it has been defined in the Student model
+        stays_on_task = True,
     )
 
     dom = Student (
         name = 'Dom',
         grade = year5,
-        # TODO: Add the house_id field once it has been defined in the model
+        house = red,
         english_mark = 90,
         science_mark = 100,
-        # TODO: Add a value for the mathematics_mark field once it has been defined in the Student model
+        mathematics_mark = 95,
         does_homework = True,
-        # TODO: Add a value for the stays_on_task field once it has been defined in the Student model
+        stays_on_task = False,
+    )
+
+    jenny = Student (
+        name = 'Jenny',
+        grade = year4,
+        house = blue,
+        english_mark = 94,
+        science_mark = 91,
+        mathematics_mark = 97,
+        does_homework = True,
+        stays_on_task = True,
     )
 
     db.session.commit()
+
+    print('Database created succesfully')
 
 
